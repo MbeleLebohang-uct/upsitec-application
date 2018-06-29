@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "891425545827",
+    "firebase_url": "https://upsitec-app.firebaseio.com",
+    "project_id": "upsitec-app",
+    "storage_bucket": "upsitec-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:891425545827:android:b4cffeebe3df8cd7",
+        "android_client_info": {
+          "package_name": "com.upsitec.upsitec"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "891425545827-4s67m0jcntq9kq5rkqhoe9vod6sk6g7e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAv1mdELOGRVVI8VvrCgj5XZJDRlLoA-4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
