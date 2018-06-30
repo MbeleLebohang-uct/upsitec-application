@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Add click listener to the cards
         mDriverCard.setOnClickListener(this);
         mCustomerCard.setOnClickListener(this);
-        
+
     }
 
     @Override

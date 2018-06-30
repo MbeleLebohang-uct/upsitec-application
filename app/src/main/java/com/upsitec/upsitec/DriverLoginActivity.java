@@ -61,7 +61,7 @@ public class DriverLoginActivity extends AppCompatActivity {
                         }
                         else{
                             String user_id = mAuth.getCurrentUser().getUid();
-                            DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("User").child("Drivers").child(user_id);
+                            DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers").child(user_id);
                             current_user_db.setValue(true);
                         }
                     }
