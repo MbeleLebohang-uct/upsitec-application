@@ -38,6 +38,9 @@ public class DriverLoginActivity extends AppCompatActivity {
 
                 if(user != null){
                     Intent intent = new Intent(DriverLoginActivity.this, MapActivity.class);
+                    startActivity(intent);
+                    finish();
+                    return;
                 }
             }
         };
