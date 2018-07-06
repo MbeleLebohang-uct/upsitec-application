@@ -94,9 +94,14 @@ public class DriverLoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 final String mail = mMail.getText().toString();
                 final String password = mPassword.getText().toString();
+
+                mLoginProgressBar.setVisibility(View.VISIBLE);
+
                 mAuth.signInWithEmailAndPassword(mail, password).addOnCompleteListener(DriverLoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        mLoginProgressBar.setVisibility(View.GONE);
+
                         if(!task.isSuccessful()){
                             Toast.makeText(DriverLoginActivity.this, "Sign in error.", Toast.LENGTH_SHORT).show();
                         }
