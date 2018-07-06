@@ -89,9 +89,13 @@ public class CustomerLoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 final String mail = mMail.getText().toString();
                 final String password = mPassword.getText().toString();
-                mAuth.createUserWithEmailAndPassword(mail, password).addOnCompleteListener(CustomerLoginActivity.this, new OnCompleteListener<AuthResult>() {
+
+                mLoginProgressBar.setVisibility(View.VISIBLE);
+
+                mAuth.signInWithEmailAndPassword(mail, password).addOnCompleteListener(CustomerLoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        mLoginProgressBar.setVisibility(View.GONE);
                         if(!task.isSuccessful()){
                             Toast.makeText(CustomerLoginActivity.this, "sign in error", Toast.LENGTH_SHORT).show();
                         }

@@ -109,8 +109,6 @@ public class DriverLoginActivity extends AppCompatActivity {
                 });
             }
         });
-
-
     }
 
     @Override
