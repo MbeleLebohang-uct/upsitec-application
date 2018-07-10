@@ -11,4 +11,7 @@
     <color name="colorGreen">#00bfa5</color>
     <color name="colorPink">#ff69b4</color>
     <color name="colorAccent">#c0c0c0</color>
+    <color name="baseReleaseColor">#212121</color>
+    <color name="basePressColor">#fafafa</color>
+    <color name="ballPressColor">#9e9e9e</color>
 </resources>
