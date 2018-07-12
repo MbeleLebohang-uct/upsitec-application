@@ -1,6 +1,10 @@
 package com.upsitec.upsitec;
 
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -15,14 +19,16 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
-
-    private GoogleMap mMap;
 
     // Play Services
     Location mLastLocation;
@@ -34,7 +40,13 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     boolean mLocationPermissionGranted = false;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 7000;
 
-    private static final int DEFAULT_ZOOM = 16;
+    private static final int DEFAULT_ZOOM = 15;
+
+    // Map variables
+    private int mTaxiMarkerHeight = 51;
+    private int mTaxiMarkerWidth = 100;
+    private GoogleMap mMap;
+    private Marker mTaxiMarkerCurrent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +74,21 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+
+        try {
+            // Customise the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            boolean success = googleMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                            this, R.raw.mapstyle));
+
+            if (!success) {
+                Log.e("ERROR", "Style parsing failed.");
+            }
+        } catch (Resources.NotFoundException e) {
+            Log.e("ERROR", "Can't find style. Error: ", e);
+        }
 
         // Do other setup activities here too, as described elsewhere in this tutorial.
 
@@ -145,9 +172,24 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                             mLastLocation = (Location)task.getResult();
                             LatLng currentCoords = new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude());
 
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentCoords, DEFAULT_ZOOM));
+                            adjustMarkerDimenssions(0.5);
 
-                            mMap.addMarker(new MarkerOptions().position(currentCoords).title("You"));
+                            BitmapDrawable TaxiBitmapDraw = (BitmapDrawable)getResources().getDrawable(R.drawable.small_taxi_yellow_top);
+                            Bitmap smallMarker = Bitmap.createScaledBitmap(TaxiBitmapDraw.getBitmap(), mTaxiMarkerWidth, mTaxiMarkerHeight, false);
+
+
+                            if(mTaxiMarkerCurrent != null){
+                                mTaxiMarkerCurrent.remove();
+                            }
+
+                            mTaxiMarkerCurrent = mMap.addMarker(new MarkerOptions()
+                                    .position(currentCoords)
+                                    .title("You")
+                                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                            );
+
+                            // Move camera to this position
+                            mMap.animateCamera((CameraUpdateFactory.newLatLngZoom(currentCoords, DEFAULT_ZOOM)));
 
                         } else {
                             Log.d("ERROR: ", "Current location is null. Using defaults.");
@@ -164,5 +206,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         } catch(SecurityException e)  {
             Log.e("Exception: %s", e.getMessage());
         }
+    }
+
+    private void adjustMarkerDimenssions(final double ratio){
+        mTaxiMarkerHeight = (int)(mTaxiMarkerHeight*ratio);
+        mTaxiMarkerWidth = (int)(mTaxiMarkerWidth*ratio);
     }
 }
